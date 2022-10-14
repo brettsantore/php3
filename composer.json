@@ -1,0 +1,14 @@
+{
+    "name": "santore/php3",
+    "autoload": {
+        "psr-4": {
+            "Santore\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Brett Santore"
+        }
+    ],
+    "require": {}
+}
