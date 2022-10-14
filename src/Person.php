@@ -30,8 +30,6 @@ class Person implements SplSubject
     public function setName($name): void
     {
         $this->name = $name;
-
-        $this->notify();
     }
 
     public function name(): string
