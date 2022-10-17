@@ -7,8 +7,10 @@ use SplFileObject;
 
 class PersonObserverFactory
 {
-    public static function create($filePath)
+    public function __invoke()
     {
+        $filePath = 'php://stdin';
+
         return new PersonObserver(
             new SplFileObject($filePath, 'w'),
             new SystemClock()
