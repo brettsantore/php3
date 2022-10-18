@@ -1,8 +1,9 @@
 <?php
 
-namespace Santore\App\Person;
+namespace Santore\App\Person\Factory;
 
 use Santore\App\Clock\SystemClock;
+use Santore\App\Person\PersonObserver;
 use SplFileObject;
 
 class PersonObserverFactory

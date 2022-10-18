@@ -1,8 +1,9 @@
 <?php
 
-namespace Santore\App\Person;
+namespace Santore\App\Person\Factory;
 
 use Psr\Container\ContainerInterface;
+use Santore\App\Person\PersonService;
 
 class PersonServiceFactory
 {
