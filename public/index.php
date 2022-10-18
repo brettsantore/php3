@@ -8,6 +8,8 @@ use Santore\App\Person\PersonService;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+chdir(__DIR__);
+
 require_once '../vendor/autoload.php';
 
 $container = new Container(include '../config/service-locator.php');
@@ -23,12 +25,26 @@ $personService = $container->get(PersonService::class);
 
 $person = new Person('World');
 $person->attach($observer);
-$personService->updateName($person, $_GET['name'] ?? null);
 
-$loader = new FilesystemLoader('../views');
-$twig = new Environment($loader);
+if (php_sapi_name() == "cli") {
+    $name = readline("What is your name? : ");
 
-$template = $twig->load('index.html');
-echo $template->render([
-    'name' => $person->name(),
-]);
+    $personService->updateName($person, $name ?? null);
+
+    $out = new SplFileObject('php://stdout', 'w');
+    $out->fwrite(sprintf(
+        'Hello, %s!' . PHP_EOL,
+        $name
+    ));
+
+} else {
+    $personService->updateName($person, $_GET['name'] ?? null);
+
+    $loader = new FilesystemLoader('../views');
+    $twig = new Environment($loader);
+
+    $template = $twig->load('index.html');
+    echo $template->render([
+        'name' => $person->name(),
+    ]);
+}
