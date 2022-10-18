@@ -5,6 +5,8 @@ use Santore\App\Container;
 use Santore\App\Person\Person;
 use Santore\App\Person\PersonObserver;
 use Santore\App\Person\PersonService;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 require_once '../vendor/autoload.php';
 
@@ -23,4 +25,10 @@ $person = new Person('World');
 $person->attach($observer);
 $personService->updateName($person, $_GET['name'] ?? null);
 
-printf('Hello, %s!', $person->name());
+$loader = new FilesystemLoader('../views');
+$twig = new Environment($loader);
+
+$template = $twig->load('index.html');
+echo $template->render([
+    'name' => $person->name(),
+]);
