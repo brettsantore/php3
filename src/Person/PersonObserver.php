@@ -1,6 +1,6 @@
 <?php
 
-namespace Santore\App;
+namespace Santore\App\Person;
 
 use Santore\App\Clock\ClockInterface;
 use SplFileObject;

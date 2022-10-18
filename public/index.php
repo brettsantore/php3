@@ -1,21 +1,14 @@
 <?php
 
-use Santore\App\Clock\ClockFactory;
 use Santore\App\Clock\ClockInterface;
 use Santore\App\Container;
-use Santore\App\PersonObserver;
-use Santore\App\PersonObserverFactory;
-use Santore\App\Person;
-use Santore\App\PersonService;
-use Santore\App\PersonServiceFactory;
+use Santore\App\Person\Person;
+use Santore\App\Person\PersonObserver;
+use Santore\App\Person\PersonService;
 
 require_once '../vendor/autoload.php';
 
-$container = new Container([
-    ClockInterface::class => ClockFactory::class,
-    PersonObserver::class => PersonObserverFactory::class,
-    PersonService::class => PersonServiceFactory::class,
-]);
+$container = new Container(include '../config/service-locator.php');
 
 /** @var ClockInterface $clock */
 $clock = $container->get(ClockInterface::class);

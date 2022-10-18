@@ -1,6 +1,6 @@
 <?php
 
-namespace Santore\App;
+namespace Santore\App\Person;
 
 class PersonService
 {
