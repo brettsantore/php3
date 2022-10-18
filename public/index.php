@@ -27,14 +27,14 @@ $person = new Person('World');
 $person->attach($observer);
 
 if (php_sapi_name() == "cli") {
-    $name = readline("What is your name? : ");
+    $name = readline("What is your name? (World) : ");
 
     $personService->updateName($person, $name ?? null);
 
     $out = new SplFileObject('php://stdout', 'w');
     $out->fwrite(sprintf(
         'Hello, %s!' . PHP_EOL,
-        $name
+        $name ?: 'World'
     ));
 
 } else {
