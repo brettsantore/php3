@@ -5,6 +5,7 @@ use Santore\App\Container;
 use Santore\App\Person\Person;
 use Santore\App\Person\PersonObserver;
 use Santore\App\Person\PersonService;
+use Santore\App\Person\UpdatePerson;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -25,11 +26,11 @@ $personService = $container->get(PersonService::class);
 
 $person = new Person('World');
 $person->attach($observer);
-
+$personUpdate = new UpdatePerson($person);
 if (php_sapi_name() == "cli") {
     $name = readline("What is your name? (World) : ");
-
-    $personService->updateName($person, $name ?? null);
+    $personUpdate->name = $name ?? null;
+    $personService->update($personUpdate);
 
     $out = new SplFileObject('php://stdout', 'w');
     $out->fwrite(sprintf(
@@ -38,7 +39,8 @@ if (php_sapi_name() == "cli") {
     ));
 
 } else {
-    $personService->updateName($person, $_GET['name'] ?? null);
+    $personUpdate->name = $_GET['name'] ?? null;
+    $personService->update($personUpdate);
 
     $loader = new FilesystemLoader('../views');
     $twig = new Environment($loader);
