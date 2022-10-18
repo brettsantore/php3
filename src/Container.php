@@ -2,8 +2,8 @@
 
 namespace Santore\App;
 
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use Santore\App\Exception\Container\UnableToFind;
 use function array_key_exists;
 
 class Container implements ContainerInterface
@@ -21,7 +21,7 @@ class Container implements ContainerInterface
     public function get(string $id)
     {
         if (!$this->has($id)) {
-            throw new InvalidArgumentException();
+            throw UnableToFind::withKey($id);
         }
 
         $factory = new $this->container[$id];
