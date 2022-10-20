@@ -47,7 +47,7 @@ if (php_sapi_name() == "cli") {
     $loader = new FilesystemLoader('../views');
     $twig = new Environment($loader);
 
-    $template = $twig->load('index.html');
+    $template = $twig->load('index.twig');
     echo $template->render([
         'name' => $person->name(),
     ]);
