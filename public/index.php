@@ -39,8 +39,10 @@ if (php_sapi_name() == "cli") {
     ));
 
 } else {
-    $personUpdate->name = $_GET['name'] ?? null;
-    $personService->update($personUpdate);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $personUpdate->name = $_POST['name'];
+        $personService->update($personUpdate);
+    }
 
     $loader = new FilesystemLoader('../views');
     $twig = new Environment($loader);
