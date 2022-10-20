@@ -8,16 +8,20 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+    networks:
+      - web
   nginx:
-
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    networks:
+      - web
     environment:
-        - NGINX_PORT=80
-    links:
-      - php
+      - NGINX_PORT=80
     ports:
       - "8080:80"
     volumes:
       - '.:/var/www/html'
-    build:
-      context: .
-      dockerfile: docker/nginx/Dockerfile
+
+networks:
+  web:
