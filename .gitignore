@@ -1,3 +1,4 @@
 /vendor/
 .idea
 data/audit-log.txt
+scratch.php
