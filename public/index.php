@@ -27,28 +27,16 @@ $personService = $container->get(PersonService::class);
 $person = new Person('World');
 $person->attach($observer);
 $personUpdate = new UpdatePerson($person);
-if (php_sapi_name() == "cli") {
-    $name = readline("What is your name? (World) : ");
-    $personUpdate->name = $name ?? null;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $personUpdate->name = $_POST['name'];
     $personService->update($personUpdate);
-
-    $out = new SplFileObject('php://stdout', 'w');
-    $out->fwrite(sprintf(
-        'Hello, %s!' . PHP_EOL,
-        $name ?: 'World'
-    ));
-
-} else {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $personUpdate->name = $_POST['name'];
-        $personService->update($personUpdate);
-    }
-
-    $loader = new FilesystemLoader('../views');
-    $twig = new Environment($loader);
-
-    $template = $twig->load('index.twig');
-    echo $template->render([
-        'name' => $person->name(),
-    ]);
 }
+
+$loader = new FilesystemLoader('../views');
+$twig = new Environment($loader);
+
+$template = $twig->load('index.twig');
+echo $template->render([
+    'name' => $person->name(),
+]);
