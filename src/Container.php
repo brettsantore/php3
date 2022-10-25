@@ -2,8 +2,10 @@
 
 namespace Santore\App;
 
+use Closure;
 use Psr\Container\ContainerInterface;
 use Santore\App\Exception\Container\UnableToFind;
+use SplObjectStorage;
 use function array_key_exists;
 
 class Container implements ContainerInterface
@@ -13,8 +15,11 @@ class Container implements ContainerInterface
      */
     private array $container;
 
+    private SplObjectStorage $storage;
+
     public function __construct($array)
     {
+        $this->storage = new SplObjectStorage();
         $this->container = $array;
     }
 
@@ -24,7 +29,13 @@ class Container implements ContainerInterface
             throw UnableToFind::withKey($id);
         }
 
-        $factory = new $this->container[$id];
+        $callable = $this->container[$id];
+
+        if ($callable instanceof Closure) {
+            return $callable($this);
+        }
+
+        $factory = new $callable;
 
         return $factory($this);
     }
