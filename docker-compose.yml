@@ -1,27 +1,22 @@
-version: '3.0'
+version: '3.4'
 
 services:
-
   php:
-    volumes:
-      - '.:/var/www/html'
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
     networks:
       - web
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
   nginx:
-    build:
-      context: .
-      dockerfile: docker/nginx/Dockerfile
     networks:
       - web
     environment:
       - NGINX_PORT=80
     ports:
       - "8080:80"
-    volumes:
-      - '.:/var/www/html'
 
 networks:
   web:
